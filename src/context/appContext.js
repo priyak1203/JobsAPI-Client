@@ -26,8 +26,18 @@ const AppProvider = ({ children }) => {
   };
 
   // register user
-  const register = (userInput) => {
-    console.log(userInput);
+  const register = async (userInput) => {
+    setLoading();
+    try {
+      const { data } = await axios.post(`/auth/register`, { ...userInput });
+      dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user.name });
+      localStorage.setItem(
+        'user',
+        JSON.stringify({ user: data.user.name, token: data.token })
+      );
+    } catch (error) {
+      dispatch({ type: REGISTER_USER_ERROR, payload: error.response.data.msg });
+    }
   };
 
   // login user

@@ -46,11 +46,7 @@ const Register = () => {
   return (
     <Wrapper className="page full-page">
       <div>
-        {showAlert && (
-          <div className="alert alert-danger">
-            {alertMessage}, please try again
-          </div>
-        )}
+        {showAlert && <div className="alert alert-danger">{alertMessage}</div>}
       </div>
       <form className="form" onSubmit={handleSubmit}>
         <img src={logo} alt="jobio" className="logo" />
