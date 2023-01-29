@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import logo from '../assets/logo.svg';
 import FormRow from '../components/FormRow';
+import { useGlobalContext } from '../context/appContext';
 
 const Register = () => {
   const [values, setValues] = useState({
@@ -11,8 +12,17 @@ const Register = () => {
     isMember: true,
   });
 
+  const value = useGlobalContext();
+  console.log(value);
+
   const handleChange = (e) => {
-    console.log(e.target);
+    const name = e.target.name;
+    const value = e.target.value;
+    setValues({ ...values, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
   };
 
   const toggleMember = () => {
@@ -21,7 +31,7 @@ const Register = () => {
 
   return (
     <Wrapper className="page full-page">
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit}>
         <img src={logo} alt="jobio" className="logo" />
         <h4>{values.isMember ? 'Login' : 'Register'}</h4>
         {/* name field */}
