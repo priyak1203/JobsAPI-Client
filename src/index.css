@@ -18,6 +18,8 @@
 
   /* rest of the colors */
   --white: #fff;
+  --red-light: #f8d7da;
+  --red-dark: #842029;
 
   /* fonts  */
   --headingFont: 'Roboto', sans-serif;
@@ -164,4 +166,21 @@ a {
   border-radius: var(--borderRadius);
   background: var(--backgroundColor);
   border: 1px solid var(--grey-200);
+}
+
+/* alerts */
+.alert {
+  padding: 0.375rem 0.75rem;
+  margin: 0 auto;
+  border-color: transparent;
+  border-radius: var(--borderRadius);
+  width: var(--fluid-width);
+  max-width: var(--fixed-width);
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.alert-danger {
+  color: var(--red-dark);
+  background: var(--red-light);
 }

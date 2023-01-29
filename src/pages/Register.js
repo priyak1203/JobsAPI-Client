@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../assets/logo.svg';
 import FormRow from '../components/FormRow';
@@ -12,25 +13,45 @@ const Register = () => {
     isMember: true,
   });
 
-  const value = useGlobalContext();
-  console.log(value);
+  const { user, isLoading, showAlert, alertMessage, login, register } =
+    useGlobalContext();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setValues({ ...values, [name]: value });
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { name, email, password, isMember } = values;
+
+    if (isMember) {
+      login({ email, password });
+    } else {
+      register({ name, email, password });
+    }
   };
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
   };
 
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+    // eslint-disable-next-line
+  }, [user]);
+
   return (
     <Wrapper className="page full-page">
+      <div>
+        {showAlert && (
+          <div className="alert alert-danger">
+            {alertMessage}, please try again
+          </div>
+        )}
+      </div>
       <form className="form" onSubmit={handleSubmit}>
         <img src={logo} alt="jobio" className="logo" />
         <h4>{values.isMember ? 'Login' : 'Register'}</h4>
@@ -61,7 +82,7 @@ const Register = () => {
         />
 
         <button type="submit" className="btn btn-block">
-          Submit
+          {isLoading ? 'Fetching User...' : 'Submit'}
         </button>
         <p>
           {values.isMember ? 'Not a member yet?' : 'Already a member?'}
