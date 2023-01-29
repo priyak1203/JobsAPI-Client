@@ -2,6 +2,7 @@ import axios from 'axios';
 import '../axios';
 import React, { useContext, useReducer } from 'react';
 import {
+  LOGOUT_USER,
   REGISTER_USER_ERROR,
   REGISTER_USER_SUCCESS,
   SET_LOADING,
@@ -55,8 +56,16 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  // logout user
+  const logout = () => {
+    localStorage.removeItem('user');
+    dispatch({ type: LOGOUT_USER });
+  };
+
   return (
-    <AppContext.Provider value={{ ...state, setLoading, register, login }}>
+    <AppContext.Provider
+      value={{ ...state, setLoading, register, login, logout }}
+    >
       {children}
     </AppContext.Provider>
   );

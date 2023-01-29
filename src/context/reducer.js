@@ -1,4 +1,5 @@
 import {
+  LOGOUT_USER,
   REGISTER_USER_ERROR,
   REGISTER_USER_SUCCESS,
   SET_LOADING,
@@ -21,6 +22,14 @@ const reducer = (state, action) => {
         user: null,
         showAlert: true,
         alertMessage: action.payload,
+      };
+    }
+
+    case LOGOUT_USER: {
+      return {
+        ...state,
+        user: null,
+        showAlert: false,
       };
     }
 
