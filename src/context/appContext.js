@@ -4,6 +4,8 @@ import React, { useContext, useEffect, useReducer } from 'react';
 import {
   CREATE_JOB_ERROR,
   CREATE_JOB_SUCCESS,
+  FETCH_JOBS_ERROR,
+  FETCH_JOBS_SUCCESS,
   LOGOUT_USER,
   REGISTER_USER_ERROR,
   REGISTER_USER_SUCCESS,
@@ -67,6 +69,18 @@ const AppProvider = ({ children }) => {
     dispatch({ type: LOGOUT_USER });
   };
 
+  // fetch all jobs
+  const fetchJobs = async () => {
+    setLoading();
+
+    try {
+      const { data } = await axios.get(`/jobs`);
+      dispatch({ type: FETCH_JOBS_SUCCESS, payload: data.jobs });
+    } catch (error) {
+      dispatch({ type: FETCH_JOBS_ERROR });
+    }
+  };
+
   // create job
   const createjob = async (userInput) => {
     setLoading();
@@ -90,7 +104,15 @@ const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ ...state, setLoading, register, login, logout, createjob }}
+      value={{
+        ...state,
+        setLoading,
+        register,
+        login,
+        logout,
+        fetchJobs,
+        createjob,
+      }}
     >
       {children}
     </AppContext.Provider>

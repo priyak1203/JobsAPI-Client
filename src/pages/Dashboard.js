@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Jobs from '../components/Jobs';
 import FormRow from '../components/FormRow';
@@ -8,7 +8,8 @@ import { useGlobalContext } from '../context/appContext';
 function Dashboard() {
   const [values, setValues] = useState({ position: '', company: '' });
 
-  const { isLoading, showAlert, alertMessage, createjob } = useGlobalContext();
+  const { isLoading, showAlert, alertMessage, fetchJobs, createjob } =
+    useGlobalContext();
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -22,6 +23,10 @@ function Dashboard() {
       setValues({ company: '', position: '' });
     }
   };
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
 
   return (
     <>

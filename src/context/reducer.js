@@ -1,6 +1,8 @@
 import {
   CREATE_JOB_ERROR,
   CREATE_JOB_SUCCESS,
+  FETCH_JOBS_ERROR,
+  FETCH_JOBS_SUCCESS,
   LOGOUT_USER,
   REGISTER_USER_ERROR,
   REGISTER_USER_SUCCESS,
@@ -39,6 +41,14 @@ const reducer = (state, action) => {
 
     case SET_USER: {
       return { ...state, user: action.payload };
+    }
+
+    case FETCH_JOBS_SUCCESS: {
+      return { ...state, isLoading: false, jobs: action.payload };
+    }
+
+    case FETCH_JOBS_ERROR: {
+      return { ...state, isLoading: false };
     }
 
     case CREATE_JOB_SUCCESS: {
