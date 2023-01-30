@@ -1,9 +1,12 @@
-function FormRow({ type, value, name, placeholder, handleChange }) {
+function FormRow({ type, value, name, placeholder, handleChange, horizontal }) {
   return (
     <div className="form-row">
-      <label htmlFor={name} className="form-label">
-        {name}
-      </label>
+      {!horizontal && (
+        <label htmlFor={name} className="form-label">
+          {name}
+        </label>
+      )}
+
       <input
         type={type}
         value={value}

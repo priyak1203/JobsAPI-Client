@@ -168,6 +168,11 @@ a {
   border: 1px solid var(--grey-200);
 }
 
+::placeholder {
+  font-family: inherit;
+  letter-spacing: var(--letterSpacing);
+}
+
 /* alerts */
 .alert {
   padding: 0.375rem 0.75rem;

@@ -51,6 +51,7 @@ const Register = () => {
       <form className="form" onSubmit={handleSubmit}>
         <img src={logo} alt="jobio" className="logo" />
         <h4>{values.isMember ? 'Login' : 'Register'}</h4>
+
         {/* name field */}
         {!values.isMember && (
           <FormRow

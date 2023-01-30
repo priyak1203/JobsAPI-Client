@@ -46,6 +46,7 @@ const AppProvider = ({ children }) => {
     setLoading();
     try {
       const { data } = await axios.post(`/auth/login`, { ...userInput });
+
       dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user.name });
       localStorage.setItem(
         'user',
