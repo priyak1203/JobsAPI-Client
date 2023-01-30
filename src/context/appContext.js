@@ -1,11 +1,14 @@
 import axios from 'axios';
 import '../axios';
-import React, { useContext, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import {
+  CREATE_JOB_ERROR,
+  CREATE_JOB_SUCCESS,
   LOGOUT_USER,
   REGISTER_USER_ERROR,
   REGISTER_USER_SUCCESS,
   SET_LOADING,
+  SET_USER,
 } from './actions';
 import reducer from './reducer';
 
@@ -14,6 +17,7 @@ const initialState = {
   isLoading: false,
   showAlert: false,
   alertMessage: 'there was an error, please try again',
+  jobs: [],
 };
 
 const AppContext = React.createContext();
@@ -63,9 +67,30 @@ const AppProvider = ({ children }) => {
     dispatch({ type: LOGOUT_USER });
   };
 
+  // create job
+  const createjob = async (userInput) => {
+    setLoading();
+
+    try {
+      const { data } = await axios.post(`/jobs`, { ...userInput });
+      dispatch({ type: CREATE_JOB_SUCCESS, payload: data.job });
+    } catch (error) {
+      dispatch({ type: CREATE_JOB_ERROR, payload: error.response.data.msg });
+    }
+  };
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+
+    if (user) {
+      const newUser = JSON.parse(user);
+      dispatch({ type: SET_USER, payload: newUser.name });
+    }
+  }, []);
+
   return (
     <AppContext.Provider
-      value={{ ...state, setLoading, register, login, logout }}
+      value={{ ...state, setLoading, register, login, logout, createjob }}
     >
       {children}
     </AppContext.Provider>

@@ -1,8 +1,11 @@
 import {
+  CREATE_JOB_ERROR,
+  CREATE_JOB_SUCCESS,
   LOGOUT_USER,
   REGISTER_USER_ERROR,
   REGISTER_USER_SUCCESS,
   SET_LOADING,
+  SET_USER,
 } from './actions';
 
 const reducer = (state, action) => {
@@ -30,6 +33,28 @@ const reducer = (state, action) => {
         ...state,
         user: null,
         showAlert: false,
+        jobs: [],
+      };
+    }
+
+    case SET_USER: {
+      return { ...state, user: action.payload };
+    }
+
+    case CREATE_JOB_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        jobs: [...state.jobs, action.payload],
+      };
+    }
+
+    case CREATE_JOB_ERROR: {
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertMessage: action.payload,
       };
     }
 

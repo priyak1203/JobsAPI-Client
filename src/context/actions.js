@@ -5,3 +5,6 @@ export const REGISTER_USER_ERROR = 'REGISTER_USER_ERROR';
 
 export const SET_USER = 'SET_USER';
 export const LOGOUT_USER = 'LOGOUT_USER';
+
+export const CREATE_JOB_SUCCESS = 'CREATE_JOB_SUCCESS';
+export const CREATE_JOB_ERROR = 'CREATE_JOB_ERROR';

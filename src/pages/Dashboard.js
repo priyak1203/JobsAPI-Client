@@ -3,19 +3,32 @@ import Navbar from '../components/Navbar';
 import Jobs from '../components/Jobs';
 import FormRow from '../components/FormRow';
 import styled from 'styled-components';
+import { useGlobalContext } from '../context/appContext';
 
 function Dashboard() {
   const [values, setValues] = useState({ position: '', company: '' });
 
+  const { isLoading, showAlert, alertMessage, createjob } = useGlobalContext();
+
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { company, position } = values;
+    if (company && position) {
+      createjob(values);
+      setValues({ company: '', position: '' });
+    }
   };
 
   return (
     <>
       <Navbar />
       <Wrapper className="page">
-        <form className="job-form">
+        {showAlert && <div className="alert alert-danger">{alertMessage}</div>}
+        <form className="job-form" onSubmit={handleSubmit}>
           {/* position field */}
           <FormRow
             type="text"
@@ -34,8 +47,11 @@ function Dashboard() {
             horizontal
             placeholder="Company"
           />
-          <button className="btn">Add Job</button>
+          <button type="submit" className="btn" disabled={isLoading}>
+            {isLoading ? 'Adding New Job...' : 'Add Job'}
+          </button>
         </form>
+
         <Jobs />
       </Wrapper>
     </>
@@ -76,6 +92,11 @@ const Wrapper = styled.section`
       }
       column-gap: 2rem;
     }
+  }
+
+  .alert {
+    max-width: var(--max-width);
+    margin-bottom: 1rem;
   }
 `;
 

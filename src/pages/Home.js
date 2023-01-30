@@ -1,9 +1,20 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../assets/logo.svg';
 import main from '../assets/main.svg';
+import { useGlobalContext } from '../context/appContext';
 
 function Home() {
+  const { user } = useGlobalContext();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user]);
+
   return (
     <Wrapper>
       <nav>
