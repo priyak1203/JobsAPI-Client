@@ -1,6 +1,7 @@
 import {
   CREATE_JOB_ERROR,
   CREATE_JOB_SUCCESS,
+  DELETE_JOB_ERROR,
   FETCH_JOBS_ERROR,
   FETCH_JOBS_SUCCESS,
   LOGOUT_USER,
@@ -68,8 +69,12 @@ const reducer = (state, action) => {
       };
     }
 
+    case DELETE_JOB_ERROR: {
+      return { ...state, isLoading: false, showAlert: true };
+    }
+
     default:
-      return { ...state };
+      throw new Error(`no such action : ${action}`);
   }
 };
 

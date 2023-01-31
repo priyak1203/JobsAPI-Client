@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useReducer } from 'react';
 import {
   CREATE_JOB_ERROR,
   CREATE_JOB_SUCCESS,
+  DELETE_JOB_ERROR,
   FETCH_JOBS_ERROR,
   FETCH_JOBS_SUCCESS,
   LOGOUT_USER,
@@ -78,6 +79,7 @@ const AppProvider = ({ children }) => {
       dispatch({ type: FETCH_JOBS_SUCCESS, payload: data.jobs });
     } catch (error) {
       dispatch({ type: FETCH_JOBS_ERROR });
+      logout();
     }
   };
 
@@ -90,6 +92,17 @@ const AppProvider = ({ children }) => {
       dispatch({ type: CREATE_JOB_SUCCESS, payload: data.job });
     } catch (error) {
       dispatch({ type: CREATE_JOB_ERROR, payload: error.response.data.msg });
+    }
+  };
+
+  // delete job
+  const deleteJob = async (id) => {
+    setLoading();
+    try {
+      await axios.delete(`/jobs/${id}`);
+      fetchJobs();
+    } catch (error) {
+      dispatch({ type: DELETE_JOB_ERROR });
     }
   };
 
@@ -112,6 +125,7 @@ const AppProvider = ({ children }) => {
         logout,
         fetchJobs,
         createjob,
+        deleteJob,
       }}
     >
       {children}

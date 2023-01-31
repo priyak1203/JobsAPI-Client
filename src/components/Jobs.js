@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import JobColumns from './JobColumns';
 
 function Jobs() {
-  const { jobs, isLoading } = useGlobalContext();
+  const { jobs, isLoading, deleteJob } = useGlobalContext();
 
   if (isLoading) {
     return <div className="loading"></div>;
@@ -42,7 +42,11 @@ function Jobs() {
                 <Link to={`/edit/${id}`} type="button" className="edit-btn">
                   <FaEdit />
                 </Link>
-                <button type="button" className="delete-btn">
+                <button
+                  type="button"
+                  className="delete-btn"
+                  onClick={() => deleteJob(id)}
+                >
                   <FaTrash />
                 </button>
               </div>
