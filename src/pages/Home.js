@@ -13,6 +13,7 @@ function Home() {
     if (user) {
       navigate('/dashboard');
     }
+    // eslint-disable-next-line
   }, [user]);
 
   return (

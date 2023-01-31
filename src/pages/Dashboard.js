@@ -26,6 +26,7 @@ function Dashboard() {
 
   useEffect(() => {
     fetchJobs();
+    // eslint-disable-next-line
   }, []);
 
   return (
