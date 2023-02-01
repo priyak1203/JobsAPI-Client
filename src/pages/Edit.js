@@ -6,17 +6,22 @@ import FormRow from '../components/FormRow';
 import Navbar from '../components/Navbar';
 
 function Edit() {
+  const { id } = useParams();
+
   const [values, setValues] = useState({
     company: '',
     position: '',
     status: '',
   });
-  const { id } = useParams();
   const {
     fetchSingleJob,
     editItem,
     isLoading,
     singleJobError: error,
+    editComplete,
+    editJob,
+    showAlert,
+    alertMessage,
   } = useGlobalContext();
 
   useEffect(() => {
@@ -37,6 +42,10 @@ function Edit() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { company, position, status } = values;
+    if (company && position) {
+      editJob(id, { company, position, status });
+    }
   };
 
   if (isLoading && !editItem) {
@@ -58,13 +67,18 @@ function Edit() {
     <>
       <Navbar />
       <Container className="page">
+        {showAlert && (
+          <div className="alert alert-danger">
+            {alertMessage || 'there was an error, please try again'}
+          </div>
+        )}
         <header>
           <Link to="/dashboard" className="btn btn-block back-home">
             back home
           </Link>
         </header>
         <form className="form" onSubmit={handleSubmit}>
-          <p>Success! Edit Complete</p>
+          <p>{editComplete && !showAlert && 'Success! Edit Complete'}</p>
           <h4>Update Job</h4>
           {/* position field */}
           <div className="form-container">
@@ -97,8 +111,12 @@ function Edit() {
                 <option value="declined">declined</option>
               </select>
             </div>
-            <button type="submit" className="btn btn-block submit-btn">
-              edit
+            <button
+              type="submit"
+              className="btn btn-block submit-btn"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Editing...' : 'Edit'}
             </button>
           </div>
         </form>

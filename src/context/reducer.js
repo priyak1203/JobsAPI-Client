@@ -2,6 +2,8 @@ import {
   CREATE_JOB_ERROR,
   CREATE_JOB_SUCCESS,
   DELETE_JOB_ERROR,
+  EDIT_JOB_ERROR,
+  EDIT_JOB_SUCCESS,
   FETCH_JOBS_ERROR,
   FETCH_JOBS_SUCCESS,
   FETCH_SINGLE_JOB_ERROR,
@@ -16,7 +18,12 @@ import {
 const reducer = (state, action) => {
   switch (action.type) {
     case SET_LOADING: {
-      return { ...state, isLoading: true, showAlert: false };
+      return {
+        ...state,
+        isLoading: true,
+        showAlert: false,
+        editComplete: false,
+      };
     }
 
     case REGISTER_USER_SUCCESS: {
@@ -39,6 +46,8 @@ const reducer = (state, action) => {
         user: null,
         showAlert: false,
         jobs: [],
+        editComplete: false,
+        editItem: null,
       };
     }
 
@@ -53,6 +62,7 @@ const reducer = (state, action) => {
         editItem: null,
         singleJobError: false,
         jobs: action.payload,
+        editComplete: false,
       };
     }
 
@@ -78,7 +88,12 @@ const reducer = (state, action) => {
     }
 
     case DELETE_JOB_ERROR: {
-      return { ...state, isLoading: false, showAlert: true };
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertMessage: action.payload,
+      };
     }
 
     case FETCH_SINGLE_JOB_SUCCESS: {
@@ -91,6 +106,25 @@ const reducer = (state, action) => {
         isLoading: false,
         editItem: null,
         singleJobError: true,
+      };
+    }
+
+    case EDIT_JOB_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        editItem: action.payload,
+        editComplete: true,
+      };
+    }
+
+    case EDIT_JOB_ERROR: {
+      return {
+        ...state,
+        isLoading: false,
+        editComplete: true,
+        showAlert: true,
+        alertMessage: action.payload,
       };
     }
 

@@ -33,7 +33,11 @@ function Dashboard() {
     <>
       <Navbar />
       <Wrapper className="page">
-        {showAlert && <div className="alert alert-danger">{alertMessage}</div>}
+        {showAlert && (
+          <div className="alert alert-danger">
+            {alertMessage || 'there was an error, please try again'}
+          </div>
+        )}
         <form className="job-form" onSubmit={handleSubmit}>
           {/* position field */}
           <FormRow
