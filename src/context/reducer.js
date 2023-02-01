@@ -4,6 +4,8 @@ import {
   DELETE_JOB_ERROR,
   FETCH_JOBS_ERROR,
   FETCH_JOBS_SUCCESS,
+  FETCH_SINGLE_JOB_ERROR,
+  FETCH_SINGLE_JOB_SUCCESS,
   LOGOUT_USER,
   REGISTER_USER_ERROR,
   REGISTER_USER_SUCCESS,
@@ -45,7 +47,13 @@ const reducer = (state, action) => {
     }
 
     case FETCH_JOBS_SUCCESS: {
-      return { ...state, isLoading: false, jobs: action.payload };
+      return {
+        ...state,
+        isLoading: false,
+        editItem: null,
+        singleJobError: false,
+        jobs: action.payload,
+      };
     }
 
     case FETCH_JOBS_ERROR: {
@@ -71,6 +79,19 @@ const reducer = (state, action) => {
 
     case DELETE_JOB_ERROR: {
       return { ...state, isLoading: false, showAlert: true };
+    }
+
+    case FETCH_SINGLE_JOB_SUCCESS: {
+      return { ...state, isLoading: false, editItem: action.payload };
+    }
+
+    case FETCH_SINGLE_JOB_ERROR: {
+      return {
+        ...state,
+        isLoading: false,
+        editItem: null,
+        singleJobError: true,
+      };
     }
 
     default:

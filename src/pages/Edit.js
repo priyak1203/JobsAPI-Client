@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { useGlobalContext } from '../context/appContext';
 import styled from 'styled-components';
 import FormRow from '../components/FormRow';
 import Navbar from '../components/Navbar';
@@ -10,6 +11,25 @@ function Edit() {
     position: '',
     status: '',
   });
+  const { id } = useParams();
+  const {
+    fetchSingleJob,
+    editItem,
+    isLoading,
+    singleJobError: error,
+  } = useGlobalContext();
+
+  useEffect(() => {
+    fetchSingleJob(id);
+    // eslint-disable-next-line
+  }, [id]);
+
+  useEffect(() => {
+    if (editItem) {
+      const { company, position, status } = editItem;
+      setValues({ company, position, status });
+    }
+  }, [editItem]);
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -18,6 +38,21 @@ function Edit() {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
+  if (isLoading && !editItem) {
+    return <div className="loading"></div>;
+  }
+
+  if (!editItem || error) {
+    return (
+      <ErrorContainer className="page">
+        <h5>There was an error, please double check your job ID</h5>
+        <Link to="/dashboard" className="btn">
+          dashboard
+        </Link>
+      </ErrorContainer>
+    );
+  }
 
   return (
     <>
@@ -71,6 +106,11 @@ function Edit() {
     </>
   );
 }
+
+const ErrorContainer = styled.section`
+  text-align: center;
+  padding-top: 6rem;
+`;
 
 const Container = styled.section`
   header {

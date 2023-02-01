@@ -7,6 +7,8 @@ import {
   DELETE_JOB_ERROR,
   FETCH_JOBS_ERROR,
   FETCH_JOBS_SUCCESS,
+  FETCH_SINGLE_JOB_ERROR,
+  FETCH_SINGLE_JOB_SUCCESS,
   LOGOUT_USER,
   REGISTER_USER_ERROR,
   REGISTER_USER_SUCCESS,
@@ -21,6 +23,8 @@ const initialState = {
   showAlert: false,
   alertMessage: 'there was an error, please try again',
   jobs: [],
+  editItem: null,
+  singleJobError: false,
 };
 
 const AppContext = React.createContext();
@@ -106,6 +110,17 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  // fetch single job
+  const fetchSingleJob = async (jobId) => {
+    setLoading();
+    try {
+      const { data } = await axios.get(`jobs/${jobId}`);
+      dispatch({ type: FETCH_SINGLE_JOB_SUCCESS, payload: data.job });
+    } catch (error) {
+      dispatch({ type: FETCH_SINGLE_JOB_ERROR });
+    }
+  };
+
   useEffect(() => {
     const user = localStorage.getItem('user');
 
@@ -126,6 +141,7 @@ const AppProvider = ({ children }) => {
         fetchJobs,
         createjob,
         deleteJob,
+        fetchSingleJob,
       }}
     >
       {children}
