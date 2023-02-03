@@ -47,47 +47,48 @@ const Register = () => {
     <Wrapper className="page full-page">
       <div>
         {showAlert && <div className="alert alert-danger">{alertMessage}</div>}
-      </div>
-      <form className="form" onSubmit={handleSubmit}>
-        <img src={logo} alt="jobio" className="logo" />
-        <h4>{values.isMember ? 'Login' : 'Register'}</h4>
 
-        {/* name field */}
-        {!values.isMember && (
+        <form className="form" onSubmit={handleSubmit}>
+          <img src={logo} alt="jobio" className="logo" />
+          <h4>{values.isMember ? 'Login' : 'Register'}</h4>
+
+          {/* name field */}
+          {!values.isMember && (
+            <FormRow
+              type="text"
+              name="name"
+              value={values.name}
+              handleChange={handleChange}
+            />
+          )}
+
+          {/* email field */}
           <FormRow
-            type="text"
-            name="name"
-            value={values.name}
+            type="email"
+            name="email"
+            value={values.email}
             handleChange={handleChange}
           />
-        )}
 
-        {/* email field */}
-        <FormRow
-          type="email"
-          name="email"
-          value={values.email}
-          handleChange={handleChange}
-        />
+          {/* password field */}
+          <FormRow
+            type="password"
+            name="password"
+            value={values.password}
+            handleChange={handleChange}
+          />
 
-        {/* password field */}
-        <FormRow
-          type="password"
-          name="password"
-          value={values.password}
-          handleChange={handleChange}
-        />
-
-        <button type="submit" className="btn btn-block" disabled={isLoading}>
-          {isLoading ? 'Fetching User...' : 'Submit'}
-        </button>
-        <p>
-          {values.isMember ? 'Not a member yet?' : 'Already a member?'}
-          <button type="button" className="member-btn" onClick={toggleMember}>
-            {values.isMember ? 'Register' : 'Login'}
+          <button type="submit" className="btn btn-block" disabled={isLoading}>
+            {isLoading ? 'Fetching User...' : 'Submit'}
           </button>
-        </p>
-      </form>
+          <p>
+            {values.isMember ? 'Not a member yet?' : 'Already a member?'}
+            <button type="button" className="member-btn" onClick={toggleMember}>
+              {values.isMember ? 'Register' : 'Login'}
+            </button>
+          </p>
+        </form>
+      </div>
     </Wrapper>
   );
 };

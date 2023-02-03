@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useGlobalContext } from '../context/appContext';
 import styled from 'styled-components';
 import FormRow from '../components/FormRow';
@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar';
 
 function Edit() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [values, setValues] = useState({
     company: '',
@@ -22,6 +23,7 @@ function Edit() {
     editJob,
     showAlert,
     alertMessage,
+    user,
   } = useGlobalContext();
 
   useEffect(() => {
@@ -35,6 +37,13 @@ function Edit() {
       setValues({ company, position, status });
     }
   }, [editItem]);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/');
+    }
+    // eslint-disable-next-line
+  }, [user]);
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });

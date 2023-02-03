@@ -109,7 +109,6 @@ const AppProvider = ({ children }) => {
       await axios.delete(`/jobs/${id}`);
       fetchJobs();
     } catch (error) {
-      console.log(error);
       dispatch({ type: DELETE_JOB_ERROR, payload: error.response.data.msg });
     }
   };
